@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">E-Travel</string>
+
+    <!--Tabs-->
+    <string name="sightseeing">Sightseeing</string>
+    <string name="restaurants">Restaurants</string>
+    <string name="hotels">Hotels</string>
+
+    <string name="title_activity_googlemaps">Map</string>
+
+    <string name="staticComments">Comments:</string>
+    <string name="singIn">Sing in</string>
+
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="login">Login</string>
+    <string name="registration">Registration</string>
+    <string name="register">Register</string>
+    <string name="password_confirm_hint">Confirm password</string>
+    <string name="user_name">Name</string>
+
+    <string name="snackbar">LOG IN</string>
+
+</resources>

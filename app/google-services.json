@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "377373134510",
+    "firebase_url": "https://etravel-8ef50.firebaseio.com",
+    "project_id": "etravel-8ef50",
+    "storage_bucket": "etravel-8ef50.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:377373134510:android:6eba1b5ede2baffe",
+        "android_client_info": {
+          "package_name": "com.example.e_travel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "377373134510-5a9ekhi3iq50ipns255facu9qq9bnri5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.e_travel",
+            "certificate_hash": "bbf8af7cdab33f28ee645cec4de91f2c06c1ca1b"
+          }
+        },
+        {
+          "client_id": "377373134510-7jmmgepcu0sev03m126dvri6pbursn7k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeP9O0SLGs07bpSE2Z_9dvUVOzmlBftvo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "377373134510-7jmmgepcu0sev03m126dvri6pbursn7k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="main_padding">10dp</dimen>
+    <dimen name="input_margin">5dp</dimen>
+    <dimen name="recycler_margin_horizontal">16dp</dimen>
+    <dimen name="recycler_margin_vertical">10dp</dimen>
+
+
+    <!--MainActivity-->
+    <dimen name="image_main_margin_left">4dp</dimen>
+    <dimen name="image_main_margin_bottom">4dp</dimen>
+
+
+    <dimen name="city_margin">10dp</dimen>
+
+
+    <dimen name="register_margin">15dp</dimen>
+
+</resources>
