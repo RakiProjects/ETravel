@@ -8,9 +8,7 @@ import com.example.e_travel.model.User;
 
 import java.util.ArrayList;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -46,7 +44,7 @@ public interface WebApi {
 
 
     @GET("commentInsert.php")
-    Call<ResponseBody> insertComment(@Query("comment") String comment, @Query("userId") int userId, @Query("placeId") int placeId, @Query("placeType") String placeType);
+    Call<ArrayList<Comment>> insertComment(@Query("comment") String comment, @Query("userId") int userId, @Query("placeId") int placeId, @Query("placeType") String placeType);
 
     @GET("comments.php")
     Call<ArrayList<Comment>> getCommentList(@Query("placeId") int placeId, @Query("placeType") String placeType);

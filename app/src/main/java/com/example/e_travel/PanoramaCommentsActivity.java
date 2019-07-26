@@ -41,6 +41,9 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
 
     Button fadePanorama;
 
+    int placeId;
+    String placeType;
+
 
 
     public static void start(Context context, int id, String name, String description, float lat, float lon, String placeType) {
@@ -88,6 +91,22 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
             userId = user.getId();
         }
 
+        //TODO: poziv metod za RecycleView i adapter
+
+        commentsViewModel = ViewModelProviders.of(this).get(CommentsViewModel.class);
+        commentsViewModel.commentsLiveData.observe(this, new Observer<CommentsResponse>() {
+            @Override
+            public void onChanged(CommentsResponse commentsResponse) {
+                // TODO: update Recycler viewa novom listom
+            }
+        });
+
+        placeId = (int) getIntent().getExtras().get("placeId");
+        placeType = (String) getIntent().getExtras().get("placeType");
+        commentsViewModel.getCommentList(placeId, placeType);
+
+
+
 
         fadePanorama = findViewById(R.id.fadePanorama);
         final View panorama = findViewById(R.id.streetViewMap);
@@ -102,6 +121,8 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
 
             }
         });
+
+
 
     }
 
@@ -129,23 +150,19 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
         }
     }
 
+    // TODO: ovde metod za adapter i RV
+
     public void addComment(View view){
-        // TODO: insert komentara u bazu, add u listu, notifyonchange,  select komentara filtrirano je po timestampu od najnovijeg
-        commentsViewModel = ViewModelProviders.of(this).get(CommentsViewModel.class);
         commentsViewModel.commentsLiveData.observe(this, new Observer<CommentsResponse>() {
             @Override
             public void onChanged(CommentsResponse commentsResponse) {
-
+                // TODO: samo updatuje RecyclerView sa listom novom i pozove notifyChange
             }
         });
 
         // uzmem podatke
         EditText edtComment = findViewById(R.id.edtComment);
         String comment = String.valueOf(edtComment.getText());
-
-
-        int placeId = (int) getIntent().getExtras().get("placeId");
-        String placeType = (String) getIntent().getExtras().get("placeType");
 
         if(!comment.equals("")){
         commentsViewModel.insertComment(comment,userId, placeId, placeType);
