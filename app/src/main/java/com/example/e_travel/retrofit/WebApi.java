@@ -37,4 +37,7 @@ public interface WebApi {
     @FormUrlEncoded
     @POST("login.php")
     Call<User>login(@Field("email") String email, @Field("password") String password);
+
+    @GET("cityDescription.php")
+    Call<ArrayList<City>> getCityDescription(@Query("cityId") int cityId);
 }

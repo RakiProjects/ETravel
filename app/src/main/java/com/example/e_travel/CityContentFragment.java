@@ -1,5 +1,6 @@
 package com.example.e_travel;
 
+        import androidx.fragment.app.DialogFragment;
         import androidx.lifecycle.Observer;
         import androidx.lifecycle.ViewModelProviders;
 
@@ -13,6 +14,9 @@ package com.example.e_travel;
 
         import android.util.Log;
         import android.view.LayoutInflater;
+        import android.view.Menu;
+        import android.view.MenuInflater;
+        import android.view.MenuItem;
         import android.view.View;
         import android.view.ViewGroup;
 
@@ -65,6 +69,7 @@ public class CityContentFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         cityId = getArguments().getInt("cityId");
         table = getArguments().getString("table");
     }
@@ -106,6 +111,24 @@ public class CityContentFragment extends Fragment {
         });
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerView.setAdapter(cityContentAdapter);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_description:
+                DialogFragment dialogFragment = CityDescriptionDialog.newInstance(cityId);
+                dialogFragment.show(getChildFragmentManager(), "dialog");
+
+                //Toast.makeText(this, "RADI!", Toast.LENGTH_LONG).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

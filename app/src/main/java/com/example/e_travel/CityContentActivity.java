@@ -1,8 +1,10 @@
 package com.example.e_travel;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -11,10 +13,13 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
-public class CityContentActivity extends AppCompatActivity {
+public class CityContentActivity extends AppCompatActivity{
 
     private static final String EXTRA_CITY_ID = "EXTRA_CITY_ID";
 
@@ -74,4 +79,6 @@ public class CityContentActivity extends AppCompatActivity {
             return null;
         }
     }
+
+
 }

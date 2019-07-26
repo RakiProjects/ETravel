@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.example.e_travel.R;
 import com.example.e_travel.model.CityContent;
 import com.example.e_travel.retrofit.RetrofitInstance;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -47,13 +48,28 @@ public class CityContentAdapter extends RecyclerView.Adapter<CityContentAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CityContentViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final CityContentViewHolder holder, int position) {
         CardView cardView = holder.cardView;
-        ImageView imageView = cardView.findViewById(R.id.card_image_city_content);
+        final ImageView imageView = cardView.findViewById(R.id.card_image_city_content);
+        final ProgressBar progressBar = cardView.findViewById(R.id.card_view_progressBar);
 
         String imgURL = cityContent.get(position).getSrc();
+        progressBar.setVisibility(View.VISIBLE);
+        Picasso.get().load(RetrofitInstance.BASE_URL + imgURL).into(imageView, new Callback() {
+            @Override
+            public void onSuccess() {
+                progressBar.setVisibility(View.GONE);
+            }
+            @Override
+            public void onError(Exception e) {
+            }
+        });
 
-        Picasso.get().load(RetrofitInstance.BASE_URL + imgURL).into(imageView);
+
+        //Picasso.get().load(RetrofitInstance.BASE_URL + imgURL).into(imageView);
+
+
+
 
         TextView textView = cardView.findViewById(R.id.card_title_city_content);
         textView.setText(cityContent.get(position).getName());

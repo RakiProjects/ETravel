@@ -21,4 +21,15 @@
 
     <string name="snackbar">LOG IN</string>
 
+
+    <!--Description fragment-->
+    <string name="desc">Description:</string>
+    <string name="area">Area: </string>
+    <string name="km">km2</string>
+    <string name="population">Population: </string>
+    <string name="mil">mil.</string>
+
+
+    <string name="cancel">close</string>
+
 </resources>
