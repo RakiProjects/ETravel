@@ -35,14 +35,13 @@ public class CityDescriptionRepository extends  BaseRepository {
 
         Call<ArrayList<City>> call = service.getCityDescription(cityId);
 
-        Log.v("TAG", String.valueOf(call.request().url()));
+
 
         call.enqueue(new Callback<ArrayList<City>>() {
             @Override
             public void onResponse(Call<ArrayList<City>> call, Response<ArrayList<City>> response) {
                 if(response.isSuccessful()){
                     ArrayList<City> cityDescription = response.body();
-                    Log.d("TAG",cityDescription.get(0).getName());
                     cityDescLiveData.setValue(new CityDescriptionResponse(cityDescription, null));
 
                 }else{

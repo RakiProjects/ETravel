@@ -37,7 +37,12 @@ public class CityContent {
     @Expose
     private String alt;
 
-    public CityContent(int id, String name, String description, float lat, float lon, int id_city, String src, String alt) {
+    @SerializedName("target_type")
+    @Expose
+    private String targetType;
+
+
+    public CityContent(int id, String name, String description, float lat, float lon, int id_city, String src, String alt, String targetType) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -46,6 +51,7 @@ public class CityContent {
         this.id_city = id_city;
         this.src = src;
         this.alt = alt;
+        this.targetType = targetType;
     }
 
     public int getId() {
@@ -110,5 +116,13 @@ public class CityContent {
 
     public void setAlt(String alt) {
         this.alt = alt;
+    }
+
+    public String getTargetType() {
+        return targetType;
+    }
+
+    public void setTargetType(String targetType) {
+        this.targetType = targetType;
     }
 }

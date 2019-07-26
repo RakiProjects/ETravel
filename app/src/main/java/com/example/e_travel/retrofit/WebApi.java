@@ -2,12 +2,15 @@ package com.example.e_travel.retrofit;
 
 import com.example.e_travel.model.City;
 import com.example.e_travel.model.CityContent;
+import com.example.e_travel.model.Comment;
 import com.example.e_travel.model.Country;
 import com.example.e_travel.model.User;
 
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -28,7 +31,7 @@ public interface WebApi {
     Call<ArrayList<CityContent>> getCityContent(@Query("cityId") int cityId, @Query("table") String table);
 
     //@GET("register.php")
-   // Call<User> register(@Query("email") String email, @Query("password") String password, @Query("name") String name);
+    // Call<User> register(@Query("email") String email, @Query("password") String password, @Query("name") String name);
 
     @FormUrlEncoded
     @POST("register.php")
@@ -36,8 +39,15 @@ public interface WebApi {
 
     @FormUrlEncoded
     @POST("login.php")
-    Call<User>login(@Field("email") String email, @Field("password") String password);
+    Call<User> login(@Field("email") String email, @Field("password") String password);
 
     @GET("cityDescription.php")
     Call<ArrayList<City>> getCityDescription(@Query("cityId") int cityId);
+
+
+    @GET("commentInsert.php")
+    Call<ResponseBody> insertComment(@Query("comment") String comment, @Query("userId") int userId, @Query("placeId") int placeId, @Query("placeType") String placeType);
+
+    @GET("comments.php")
+    Call<ArrayList<Comment>> getCommentList(@Query("placeId") int placeId, @Query("placeType") String placeType);
 }

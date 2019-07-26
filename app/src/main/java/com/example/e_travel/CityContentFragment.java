@@ -106,7 +106,7 @@ public class CityContentFragment extends Fragment {
         cityContentAdapter = new CityContentAdapter(getContext(), new ArrayList<CityContent>(), new CityContentAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(CityContent item) {
-                PanoramaCommentsActivity.start(getContext(),item.getId(), item.getName(), item.getDescription(), item.getLat(), item.getLon());
+                PanoramaCommentsActivity.start(getContext(),item.getId(), item.getName(), item.getDescription(), item.getLat(), item.getLon(), item.getTargetType());
             }
         });
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));

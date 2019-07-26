@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:orientation="vertical"
     tools:context=".PanoramaCommentsActivity">
 
@@ -13,6 +14,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2" />
+
+    <Button
+        android:id="@+id/fadePanorama"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Fade up"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -62,15 +70,41 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:text="@string/singIn"
-                    android:onClick="signIn"/>
+                    android:onClick="signIn"
+                    android:text="@string/singIn" />
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:text="Name"
+                    android:textSize="21sp"
+                    android:visibility="gone" />
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/addComment"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Your comment here..." />
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edtComment"
+                    android:layout_width="0dp"
+                    android:layout_weight="10"
+                    android:layout_height="wrap_content"
+                    android:hint="Your comment here..." />
+                <Button
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:text="Add"
+                    android:onClick="addComment"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
 
         </LinearLayout>
