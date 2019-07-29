@@ -8,8 +8,10 @@ import com.example.e_travel.model.User;
 
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -42,10 +44,12 @@ public interface WebApi {
     @GET("cityDescription.php")
     Call<ArrayList<City>> getCityDescription(@Query("cityId") int cityId);
 
-
     @GET("commentInsert.php")
     Call<ArrayList<Comment>> insertComment(@Query("comment") String comment, @Query("userId") int userId, @Query("placeId") int placeId, @Query("placeType") String placeType);
 
     @GET("comments.php")
     Call<ArrayList<Comment>> getCommentList(@Query("placeId") int placeId, @Query("placeType") String placeType);
+
+    @GET("commentDelete.php")
+    Call<ResponseBody> deleteComment(@Query("commentId") int commentId);
 }

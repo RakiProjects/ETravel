@@ -80,12 +80,11 @@ public class RegistrationActivity extends AppCompatActivity implements Validator
                     Toast.makeText(RegistrationActivity.this, "Server is busy, please try later", Toast.LENGTH_LONG).show();
                 }
                 if(registrationResponse.getError().equals("")){
-                    //TODO: ispis da se registrovao
-                    // Toast.makeText(RegistrationActivity.this, "USPESNO", Toast.LENGTH_LONG).show();
                     registrationResponse.setError(null);
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.registration_activity), "Successfull registration!", Snackbar.LENGTH_INDEFINITE);
-                    snackbar.setAction(R.string.snackbar, new SnackbarListener());
-                    snackbar.show();
+                    LoginActivity.start(RegistrationActivity.this);
+//                    Snackbar snackbar = Snackbar.make(findViewById(R.id.registration_activity), "Successfull registration!", Snackbar.LENGTH_INDEFINITE);
+//                    snackbar.setAction(R.string.snackbar, new SnackbarListener());
+//                    snackbar.show();
                 }
             }
         });

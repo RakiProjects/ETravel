@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.e_travel.R;
 import com.example.e_travel.model.Country;
+import com.example.e_travel.retrofit.RetrofitInstance;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import java.util.List;
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder> {
 
 
-    private ArrayList<Country> countryList = new ArrayList<>();
+    private ArrayList<Country> countryList;
     private Context context;
     private final OnItemClickListener listener;
 
@@ -33,7 +34,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
     @NonNull
     @Override
     public MainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main, parent, false);
         MainViewHolder vh = new MainViewHolder(view);
         return vh;
     }
@@ -42,8 +43,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
     public void onBindViewHolder(@NonNull MainViewHolder holder, int position) {
         holder.countryName.setText(countryList.get(position).getName());
 
-        //String imgURL = countryList.get(position).getImageSrc();
-        //Picasso.get().load(imgURL).into(holder.countryImage);
+        String imgURL = countryList.get(position).getSrc();
+        Picasso.get().load(RetrofitInstance.BASE_URL + imgURL).into(holder.countryImage);
+
+        holder.countryImage.setContentDescription(countryList.get(position).getAlt());
 
         holder.bind(countryList.get(position), listener);
     }
@@ -53,13 +56,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         return countryList.size();
     }
 
-    public void updateCountryList(List<Country> list){
+    public void updateCountryList(List<Country> list) {
         countryList.clear();
         countryList.addAll(list);
         notifyDataSetChanged();
     }
 
-    public static class MainViewHolder extends RecyclerView.ViewHolder{
+    public static class MainViewHolder extends RecyclerView.ViewHolder {
 
         TextView countryName;
         ImageView countryImage;
@@ -69,6 +72,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
             countryName = itemView.findViewById(R.id.country_name);
             countryImage = itemView.findViewById(R.id.country_image);
         }
+
         public void bind(final Country item, final OnItemClickListener listener) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

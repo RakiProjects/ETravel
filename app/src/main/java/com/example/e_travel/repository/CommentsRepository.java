@@ -12,6 +12,7 @@ import com.example.e_travel.retrofit.WebApi;
 
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,12 +43,14 @@ public class CommentsRepository extends BaseRepository {
             @Override
             public void onResponse(Call<ArrayList<Comment>> call, Response<ArrayList<Comment>> response) {
                 if(response.isSuccessful()){
-                    //TODO: uzeti podatke, SET VALUE
+                    ArrayList<Comment> comments = response.body();
+                    commentsLiveData.setValue(new CommentsResponse(comments, null));
                     Log.v(TAG, " uspelo");
                 }else{
                     try {
                         response.errorBody().string();
                     } catch (Exception e) {
+                        commentsLiveData.setValue(new CommentsResponse(null, e));
                         Log.e(TAG, "catch ", e);
                     }
                 }
@@ -55,6 +58,7 @@ public class CommentsRepository extends BaseRepository {
 
             @Override
             public void onFailure(Call<ArrayList<Comment>> call, Throwable t) {
+                commentsLiveData.setValue(new CommentsResponse(null, t));
                 Log.e(TAG, "onFailure", t);
             }
         });
@@ -64,12 +68,15 @@ public class CommentsRepository extends BaseRepository {
     public void getCommentList(final MutableLiveData<CommentsResponse> commentsLiveData, int placeId, String placeType){
         Call<ArrayList<Comment>> call = service.getCommentList(placeId, placeType);
 
+        Log.v(TAG, String.valueOf(call.request().url()));
+
         call.enqueue(new Callback<ArrayList<Comment>>() {
             @Override
             public void onResponse(Call<ArrayList<Comment>> call, Response<ArrayList<Comment>> response) {
                 if(response.isSuccessful()){
-                    //
-                    Log.v(TAG, "UZME SELECT VREDNOSTI");
+                    ArrayList<Comment> comments = response.body();
+                    commentsLiveData.setValue(new CommentsResponse(comments, null));
+                    //Log.v(TAG, "UZME SELECT VREDNOSTI");
                 }else{
                     try {
                         response.errorBody().string();
@@ -81,7 +88,34 @@ public class CommentsRepository extends BaseRepository {
 
             @Override
             public void onFailure(Call<ArrayList<Comment>> call, Throwable t) {
-                Log.e(TAG, "onFailure", t);
+                Log.e(TAG, "onFailure"+ t.getMessage(), t);
+            }
+        });
+    }
+
+    public void deleteComment(final MutableLiveData<CommentsResponse> commentDeleteLiveData, int commentId){
+        Call<ResponseBody> call = service.deleteComment(commentId);
+
+        Log.v(TAG, String.valueOf(call.request().url()));
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                   // TODO: ako successfull obrisi lokalo, novi LiveData.
+                    commentDeleteLiveData.setValue(new CommentsResponse(null, null));
+                }else {
+                    try {
+                        response.errorBody().string();
+                    } catch (Exception e) {
+                        Log.e(TAG, "catch ", e);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                commentDeleteLiveData.setValue(new CommentsResponse(null, t));
             }
         });
     }

@@ -22,13 +22,26 @@ public class Comment {
 
     @SerializedName("time")
     @Expose
-    private Timestamp time;
+    private String time;
 
-    public Comment(int id, String comment, int userId, Timestamp time) {
+    @SerializedName("name")
+    @Expose
+    private String userName;
+
+    public Comment(int id, String comment, int userId, String time, String userName) {
         this.id = id;
         this.comment = comment;
         this.userId = userId;
         this.time = time;
+        this.userName = userName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public int getId() {
@@ -55,11 +68,11 @@ public class Comment {
         this.userId = userId;
     }
 
-    public Timestamp getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Timestamp time) {
+    public void setTime(String time) {
         this.time = time;
     }
 }

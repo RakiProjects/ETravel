@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -37,6 +38,8 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
     @Password(min = 5, scheme = Password.Scheme.ANY)
     private EditText loginPassword;
 
+    public static final String PREF_USER = "PREF_USER";
+
     private Validator validator;
     private LoginViewModel loginViewModel;
 
@@ -45,11 +48,8 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
 
     SharedPreferences sharedPreferences;
 
-    public static final String PREF_USER = "PREF_USER";
-
     public static void start(Context context) {
         Intent starter = new Intent(context, LoginActivity.class);
-        //starter.putExtra();
         context.startActivity(starter);
     }
 
@@ -77,11 +77,8 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
                     Toast.makeText(LoginActivity.this, "Server problems, try again later.", Toast.LENGTH_LONG).show();
                 }else if(userResponse.getError().equals("")){
 
-                    //TODO: uspesno logovanje, cuvanje podataka od korisnika
                     sharedPreferences = getSharedPreferences(PREF_USER, MODE_PRIVATE);
-                   // User user = new User();
                     User user = userResponse.getUser();
-
 
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     Gson gson = new Gson();
@@ -89,11 +86,9 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
                     editor.putString("user", json);
                     editor.apply();
 
-                    Intent panoramaIntent = new Intent();
+                    Intent panoramaIntent = new Intent(LoginActivity.this, PanoramaCommentsActivity.class);
                     setResult(Activity.RESULT_OK, panoramaIntent);
                     finish();
-
-
                 }
             }
         });
@@ -127,5 +122,6 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
     public void registration(View view) {
         RegistrationActivity.start(this);
     }
+
 
 }

@@ -93,7 +93,7 @@ public class CityContentFragment extends Fragment {
             public void onChanged(CityContentResponse cityContentResponse) {
                 if(cityContentResponse == null) return;
                 if(cityContentResponse.getThrowable() !=null){
-                    // TODO: GRESKA
+                    // TODO: kada je GRESKA
                 }
                 Log.v(TAG, "on change resenje size za "+table+"= "+ cityContentResponse.getCityList().size());
                cityContentAdapter.updateCityContent(cityContentResponse.getCityList());
