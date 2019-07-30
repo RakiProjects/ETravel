@@ -1,59 +1,80 @@
 package com.example.e_travel.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "cities")
 public class City {
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "key")
+    private int key;
 
     @SerializedName("id")
     @Expose
+    @ColumnInfo(name = "id")
     private int id;
 
     @SerializedName("name")
     @Expose
+    @ColumnInfo(name = "name")
     private String name;
 
 
     @SerializedName("id_country")
     @Expose
+    @ColumnInfo(name = "id_country")
     private int idCountry;
 
 
     @SerializedName("description")
     @Expose
+    @Ignore
     private String description;
 
     @SerializedName("area")
     @Expose
+    @Ignore
     private float area;
 
     @SerializedName("population")
     @Expose
+    @Ignore
     private float population;
 
     @SerializedName("src")
     @Expose
+    @Ignore
     private String src;
 
     @SerializedName("alt")
     @Expose
+    @Ignore
     private String alt;
 
-    public City(int id, String name, int idCountry, String description, float area, float population, String src, String alt) {
-        this.id = id;
-        this.name = name;
-        this.idCountry = idCountry;
-        this.description = description;
-        this.area = area;
-        this.population = population;
-        this.src = src;
-        this.alt = alt;
+    public City(City city) {
+        this.id = city.id;
+        this.name = city.name;
+        this.idCountry = city.idCountry;
     }
 
     public City(int id, String name, int idCountry) {
         this.id = id;
         this.name = name;
         this.idCountry = idCountry;
+    }
+
+    public int getKey() {
+        return key;
+    }
+
+    public void setKey(int key) {
+        this.key = key;
     }
 
     public int getId() {
@@ -119,4 +140,6 @@ public class City {
     public void setAlt(String alt) {
         this.alt = alt;
     }
+
+
 }

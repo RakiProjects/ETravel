@@ -13,9 +13,11 @@ import android.widget.Toast;
 import com.example.e_travel.adapter.MainAdapter;
 import com.example.e_travel.model.Country;
 import com.example.e_travel.response.MainResponse;
+import com.example.e_travel.room.ETravelRoomDatabase;
 import com.example.e_travel.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private MainAdapter mainAdapter;
+    ETravelRoomDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +40,19 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel.countriesLiveData.observe(this, new Observer<MainResponse>() {
             @Override
             public void onChanged(MainResponse mainResponse) {
-                if(mainResponse == null) return;
-                if(mainResponse.getThrowable() != null){
-                    // greska
-                    Toast.makeText(MainActivity.this, "No internet connection!", Toast.LENGTH_LONG).show();
+                if (mainResponse == null) return;
+                if (mainResponse.getThrowable() != null) {
+                  if(mainResponse.getCountryList() != null){
+                      mainAdapter.updateCountryList(mainResponse.getCountryList());
+                    }else {
+                        Toast.makeText(MainActivity.this, "No internet connection!", Toast.LENGTH_LONG).show();
+                    }
+                    ETravelRoomDatabase.destroyInstance();
+
+                } else {
+                    // radi
+                    mainAdapter.updateCountryList(mainResponse.getCountryList());
                 }
-                // radi
-                mainAdapter.updateCountryList(mainResponse.getCountryList());
             }
         });
         mainViewModel.getCountryList();
@@ -51,12 +60,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void generateMainRecyclerView() {
 
-        mainAdapter = new MainAdapter(this, new ArrayList<Country>() , new MainAdapter.OnItemClickListener() {
+        mainAdapter = new MainAdapter(this, new ArrayList<Country>(), new MainAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Country item) {
-               CitiesActivity.start(MainActivity.this, item.getId(), item.getName());
-    }
-});
+                CitiesActivity.start(MainActivity.this, item.getId(), item.getName());
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mainAdapter);
     }

@@ -103,17 +103,18 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
         userName = findViewById(R.id.user_name);
         btnSingIn = findViewById(R.id.signIn);
 
-        logout = findViewById(R.id.logout);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                SharedPreferences pref = getSharedPreferences(LoginActivity.PREF_USER, MODE_PRIVATE);
-                SharedPreferences.Editor editor = pref.edit();
-                editor.remove("user");
-                editor.apply();
-            }
-        });
+        //TODO: logout
+//        logout = findViewById(R.id.logout);
+//        logout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                SharedPreferences pref = getSharedPreferences(LoginActivity.PREF_USER, MODE_PRIVATE);
+//                SharedPreferences.Editor editor = pref.edit();
+//                editor.remove("user");
+//                editor.apply();
+//            }
+//        });
 
         // User data
         getUserData();
@@ -231,7 +232,7 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
         user = gson.fromJson(json, User.class);
         if (user != null) {
             hello.setVisibility(View.VISIBLE);
-            btnSingIn.setVisibility(View.GONE);
+           // btnSingIn.setVisibility(View.GONE);
             userName.setText(user.getName());
             userName.setVisibility(View.VISIBLE);
             userId = user.getId();

@@ -18,11 +18,11 @@ public class CitiesViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public void getCityList(int idCity){
+    public void getCityList(int countryId){
         if(citiesLiveData.getValue() != null){
             return;
         }
         citiesRepository = CitiesRepository.getInstance();
-        citiesRepository.getCityList(citiesLiveData, idCity);
+        citiesRepository.getCityList(getApplication(),citiesLiveData, countryId);
     }
 }

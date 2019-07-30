@@ -1,6 +1,7 @@
 package com.example.e_travel.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         holder.countryName.setText(countryList.get(position).getName());
 
         String imgURL = countryList.get(position).getSrc();
-        Picasso.get().load(RetrofitInstance.BASE_URL + imgURL).into(holder.countryImage);
+        Picasso.get()
+                .load(RetrofitInstance.BASE_URL + imgURL)
+                .into(holder.countryImage);
 
         holder.countryImage.setContentDescription(countryList.get(position).getAlt());
 

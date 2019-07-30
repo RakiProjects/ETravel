@@ -11,13 +11,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.e_travel.adapter.CitiesAdapter;
 import com.example.e_travel.model.City;
 import com.example.e_travel.response.CitiesResponse;
+import com.example.e_travel.room.ETravelRoomDatabase;
 import com.example.e_travel.viewmodel.CitiesViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CitiesActivity extends AppCompatActivity {
 
@@ -27,6 +30,8 @@ public class CitiesActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private CitiesAdapter citiesAdapter;
+
+    ETravelRoomDatabase database;
 
     public static void start(Context context, int countyId, String countyName) {
         Intent starter = new Intent(context, CitiesActivity.class);
@@ -53,14 +58,18 @@ public class CitiesActivity extends AppCompatActivity {
             public void onChanged(CitiesResponse citiesResponse) {
                 if(citiesResponse == null) return;
                 if(citiesResponse.getThrowable() != null){
-                    // greska
+                    if(citiesResponse.getCityList() == null){
+                        Toast.makeText(CitiesActivity.this, "No internet connection!", Toast.LENGTH_LONG).show();
+                    }else{
+                        citiesAdapter.updateCityList(citiesResponse.getCityList());
+                    }
+                }else{
+                citiesAdapter.updateCityList(citiesResponse.getCityList());
                 }
-                citiesAdapter.updateCountryList(citiesResponse.getCityList());
-
             }
         });
-        int cityId = (int) getIntent().getExtras().get(EXTRA_COUNTRY_ID);
-        citiesViewModel.getCityList(cityId);
+        int countryId = (int) getIntent().getExtras().get(EXTRA_COUNTRY_ID);
+        citiesViewModel.getCityList(countryId);
     }
 
 

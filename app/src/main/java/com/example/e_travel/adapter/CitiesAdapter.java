@@ -50,7 +50,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CitiesView
     }
 
 
-    public void updateCountryList(List<City> list){
+    public void updateCityList(List<City> list){
         cityList.clear();
         cityList.addAll(list);
         notifyDataSetChanged();
