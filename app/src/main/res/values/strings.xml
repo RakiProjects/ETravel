@@ -32,4 +32,11 @@
 
     <string name="cancel">close</string>
 
+
+    <string name="addComment">Add</string>
+    <string name="helloUser">Hello </string>
+
+
+
+
 </resources>

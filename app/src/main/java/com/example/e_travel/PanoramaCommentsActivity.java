@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,7 +55,7 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
 
     CommentsViewModel commentsViewModel;
 
-    Button fadePanorama;
+    ImageButton fadePanorama;
 
     int placeId;
     String placeType;
@@ -150,10 +151,10 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
             public void onClick(View view) {
                 if (panorama.getVisibility() == View.VISIBLE) {
                     panorama.setVisibility(View.GONE);
-                    fadePanorama.setText("Show panorama");
+                    fadePanorama.setImageResource(R.drawable.ic_arrow_downward_black_24dp);
                 } else {
                     panorama.setVisibility(View.VISIBLE);
-                    fadePanorama.setText("Hide panorama");
+                    fadePanorama.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
                 }
             }
         });

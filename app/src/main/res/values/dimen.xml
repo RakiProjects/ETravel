@@ -17,4 +17,6 @@
 
     <dimen name="register_margin">15dp</dimen>
 
+    <dimen  name="fadePanorama">50dp</dimen>
+
 </resources>
