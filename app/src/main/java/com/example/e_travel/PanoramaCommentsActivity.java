@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.e_travel.adapter.CommentsAdapter;
+import com.example.e_travel.model.CityContent;
 import com.example.e_travel.model.Comment;
 import com.example.e_travel.model.User;
 import com.example.e_travel.response.CommentsResponse;
@@ -65,15 +66,12 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
     CommentsAdapter commentsAdapter;
     RecyclerView recyclerView;
 
+    CityContent cityContent;
 
-    public static void start(Context context, int id, String name, String description, float lat, float lon, String placeType) {
+
+    public static void start(Context context, CityContent item) {
         Intent starter = new Intent(context, PanoramaCommentsActivity.class);
-        starter.putExtra("placeId", id);
-        starter.putExtra("name", name);
-        starter.putExtra("description", description);
-        starter.putExtra("lat", lat);
-        starter.putExtra("lon", lon);
-        starter.putExtra("placeType", placeType);
+        starter.putExtra("item" , item);
         context.startActivity(starter);
     }
 
@@ -85,15 +83,14 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
         StreetViewPanoramaFragment streetViewPanoramaFragment = (StreetViewPanoramaFragment) getFragmentManager().findFragmentById(R.id.streetViewMap);
         streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
 
-        String name = (String) getIntent().getExtras().get("name");
-        String description = (String) getIntent().getExtras().get("description");
+        cityContent = (CityContent) getIntent().getSerializableExtra("item");
 
         txtPanoramaName = findViewById(R.id.panoramaName);
         txtPanoramaDescription = findViewById(R.id.panoramaDescription);
         hello = findViewById(R.id.hello);
 
-        txtPanoramaName.setText(name);
-        txtPanoramaDescription.setText(description);
+        txtPanoramaName.setText(cityContent.getName());
+        txtPanoramaDescription.setText(cityContent.getDescription());
 
         recyclerView = findViewById(R.id.comments_recycler_view);
         recyclerView.setNestedScrollingEnabled(false);
@@ -104,18 +101,19 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
         userName = findViewById(R.id.user_name);
         btnSingIn = findViewById(R.id.signIn);
 
-        //TODO: logout
-//        logout = findViewById(R.id.logout);
-//        logout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                SharedPreferences pref = getSharedPreferences(LoginActivity.PREF_USER, MODE_PRIVATE);
-//                SharedPreferences.Editor editor = pref.edit();
-//                editor.remove("user");
-//                editor.apply();
-//            }
-//        });
+
+        logout = findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userId = 0;
+                SharedPreferences pref = getSharedPreferences(LoginActivity.PREF_USER, MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.remove("user");
+                editor.apply();
+                recreate();
+            }
+        });
 
         // User data
         getUserData();
@@ -126,22 +124,17 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
         commentsViewModel.commentsLiveData.observe(this, new Observer<CommentsResponse>() {
             @Override
             public void onChanged(CommentsResponse commentsResponse) {
-                //TODO: handluje greske
-                commentsAdapter.updateCommentList(commentsResponse.getCommentList());
+                if (commentsResponse == null) return;
+                if (commentsResponse.getThrowable() != null) {
+                    Toast.makeText(PanoramaCommentsActivity.this, "No internet connection!", Toast.LENGTH_LONG).show();
+                } else {
+                    commentsAdapter.updateCommentList(commentsResponse.getCommentList());
+                }
+
             }
         });
 
-        placeId = (int) getIntent().getExtras().get("placeId");
-        placeType = (String) getIntent().getExtras().get("placeType");
-        commentsViewModel.getCommentList(placeId, placeType);
-
-
-        commentsViewModel.commentDeleteLiveData.observe(this, new Observer<CommentsResponse>() {
-            @Override
-            public void onChanged(CommentsResponse commentsResponse) {
-                //TODO:
-            }
-        });
+        commentsViewModel.getCommentList(cityContent.getId(), cityContent.getTargetType());
 
         // panorama Fade button
         fadePanorama = findViewById(R.id.fadePanorama);
@@ -162,23 +155,18 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
 
     @Override
     public void onStreetViewPanoramaReady(StreetViewPanorama streetViewPanorama) {
-
-        float lan = (float) getIntent().getExtras().get("lat");
-        float lon = (float) getIntent().getExtras().get("lon");
-
-        streetViewPanorama.setPosition(new LatLng(lan, lon));
+        streetViewPanorama.setPosition(new LatLng(cityContent.getLat(), cityContent.getLon()));
     }
 
 
     private void generateCommentRecyclerView() {
 
-        commentsAdapter = new CommentsAdapter(new ArrayList<Comment>(), userId, new CommentsAdapter.Listener() {
+        commentsAdapter = new CommentsAdapter(PanoramaCommentsActivity.this, new ArrayList<Comment>(), userId, new CommentsAdapter.Listener() {
             @Override
             public void onDeleteClick(int commentId) {
                 commentsViewModel.deleteComment(commentId);
             }
         });
-       // commentsAdapter = new CommentsAdapter(new ArrayList<Comment>());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(commentsAdapter);
     }
@@ -187,9 +175,17 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                btnSingIn.setVisibility(View.GONE);
                 Toast.makeText(this, "Successfully logged in", Toast.LENGTH_LONG).show();
                 getUserData();
+
+                //TODO: ??
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        recreate();
+                    }
+                });
+
             }
         }
     }
@@ -202,41 +198,47 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
     public void addComment(View view) {
         // uzmem podatke
         final EditText edtComment = findViewById(R.id.edtComment);
-        String comment = String.valueOf(edtComment.getText());
+        String comment = String.valueOf(edtComment.getText()).trim();
 
 
         commentsViewModel.commentsLiveData.observe(this, new Observer<CommentsResponse>() {
             @Override
             public void onChanged(CommentsResponse commentsResponse) {
-                commentsAdapter.updateCommentList(commentsResponse.getCommentList());
+                if (commentsResponse.getThrowable() == null) {
+                    commentsAdapter.updateCommentList(commentsResponse.getCommentList());
 
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(layout.getWindowToken(), 0);
-                edtComment.setText("");
-                edtComment.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(layout.getWindowToken(), 0);
+                    edtComment.setText("");
+                    edtComment.clearFocus();
+                }else{
+                    Toast.makeText(PanoramaCommentsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
-        if (!comment.equals("") && userId !=0) {
+        if (!comment.equals("") && userId != 0) {
             commentsViewModel.insertComment(comment, userId, placeId, placeType);
-        }else if(comment.equals("")) {
+        } else if (comment.equals("")) {
             Toast.makeText(this, "Comment field cannot be empty", Toast.LENGTH_SHORT).show();
-        }else if (userId == 0) {
+        } else if (userId == 0) {
             Toast.makeText(this, "Sign in to comment", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void getUserData(){
+    public void getUserData() {
         SharedPreferences pref = getSharedPreferences(LoginActivity.PREF_USER, MODE_PRIVATE);
         Gson gson = new Gson();
         String json = pref.getString("user", "");
         user = gson.fromJson(json, User.class);
         if (user != null) {
             hello.setVisibility(View.VISIBLE);
-           // btnSingIn.setVisibility(View.GONE);
+            btnSingIn.setVisibility(View.GONE);
+            logout.setVisibility(View.VISIBLE);
             userName.setText(user.getName());
             userName.setVisibility(View.VISIBLE);
             userId = user.getId();
+           //Log.v("Panorama", String.valueOf(userId));
         }
     }
 }

@@ -12,6 +12,7 @@ import com.example.e_travel.retrofit.RetrofitInstance;
 import com.example.e_travel.retrofit.WebApi;
 import com.example.e_travel.room.ETravelRoomDatabase;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,18 +51,27 @@ public class CitiesRepository extends BaseRepository {
                     ArrayList<City> cityList = response.body();
 
                     database = ETravelRoomDatabase.getInstance(context);
-                    database.cityDao().deleteTable();
+                   // database.cityDao().deleteTable();
+                    Log.v(TAG, String.valueOf(countryId));
 
-                    for (City c : cityList) {
-                        City city = new City(c);
-                        database.cityDao().insertCities(city);
-                        Log.v(TAG, "insert " + c.getName());
-                    }
+                    database.cityDao().insertCities(cityList);
+                    Log.v(TAG, String.valueOf(cityList.get(0).getIdCountry()));
+
+//                    for (City c : cityList) {
+//                        City city = new City(c);
+//                        database.cityDao().insertCities(city);
+//                    }
+
+
                     citiesLiveData.setValue(new CitiesResponse(cityList, null));
 
                 } else {
-                    Log.v(TAG, String.valueOf(response.code()));
-                    //...
+                    try {
+                        response.errorBody().string();
+                    } catch (IOException e) {
+                        citiesLiveData.setValue(new CitiesResponse(null, e));
+                    }
+
                 }
             }
 
@@ -69,8 +79,20 @@ public class CitiesRepository extends BaseRepository {
             public void onFailure(Call<ArrayList<City>> call, Throwable t) {
                 // no internet, room database
                 database = ETravelRoomDatabase.getInstance(context);
+
+                Log.v(TAG, String.valueOf(countryId));
+
                 List<City> cityList = database.cityDao().getCities(countryId);
                 Log.v(TAG, "size upita sa IDem je "+cityList.size());
+
+
+                List<City> cityList2 = database.cityDao().getCities();
+                Log.v(TAG, "size upita BEZ IDa je "+cityList2.size());
+                for(City c : cityList2){
+                    Log.v(TAG,  c.getName() + c.getIdCountry());
+                }
+
+
                 if (cityList.size() != 0) {
                     citiesLiveData.setValue(new CitiesResponse(cityList, t));
                 } else {

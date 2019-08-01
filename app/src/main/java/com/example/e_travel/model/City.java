@@ -11,13 +11,9 @@ import com.google.gson.annotations.SerializedName;
 @Entity(tableName = "cities")
 public class City {
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "key")
-    private int key;
-
     @SerializedName("id")
     @Expose
-    @ColumnInfo(name = "id")
+    @PrimaryKey
     private int id;
 
     @SerializedName("name")
@@ -25,12 +21,10 @@ public class City {
     @ColumnInfo(name = "name")
     private String name;
 
-
     @SerializedName("id_country")
     @Expose
     @ColumnInfo(name = "id_country")
     private int idCountry;
-
 
     @SerializedName("description")
     @Expose
@@ -67,14 +61,6 @@ public class City {
         this.id = id;
         this.name = name;
         this.idCountry = idCountry;
-    }
-
-    public int getKey() {
-        return key;
-    }
-
-    public void setKey(int key) {
-        this.key = key;
     }
 
     public int getId() {

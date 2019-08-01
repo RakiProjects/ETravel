@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import com.example.e_travel.model.City;
 import com.example.e_travel.model.Country;
 
-@Database(entities = {Country.class, City.class},  exportSchema = false, version = 2)
+@Database(entities = {Country.class, City.class},  exportSchema = false, version = 8)
 public abstract class ETravelRoomDatabase extends RoomDatabase {
 
     private static final String DB_NAME = "eTravel_db";
@@ -18,7 +18,6 @@ public abstract class ETravelRoomDatabase extends RoomDatabase {
     public static synchronized ETravelRoomDatabase getInstance(Context context){
         if(instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(), ETravelRoomDatabase.class, DB_NAME)
-                    .fallbackToDestructiveMigration()
                     .allowMainThreadQueries()
                     .build();
         }

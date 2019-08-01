@@ -1,5 +1,7 @@
 package com.example.e_travel.adapter;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.e_travel.PanoramaCommentsActivity;
@@ -26,11 +29,15 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     ArrayList<Comment> commentList;
     int userId ;
     Listener listener;
+    AlertDialog.Builder alertDialogBuilder;
+    Context context;
 
-    public CommentsAdapter(ArrayList<Comment> commentList, int userId, Listener listener) {
+    public CommentsAdapter(Context context, ArrayList<Comment> commentList, int userId, Listener listener) {
+        this.context = context;
         this.commentList = commentList;
         this.userId = userId;
         this.listener = listener;
+
     }
 
     @NonNull
@@ -50,17 +57,38 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
         holder.commentText.setText(commentList.get(position).getComment());
 
+
+        //Log.v("PanoramaAdapter", String.valueOf(commentList.get(position).getUserId()));
         if(userId == commentList.get(position).getUserId()){
             holder.trash.setVisibility(View.VISIBLE);
 
             holder.trash.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    Log.v("AAA" , String.valueOf(commentList.get(holder.getAdapterPosition()).getId()));
-                    listener.onDeleteClick(commentList.get(holder.getAdapterPosition()).getId());
-                    commentList.remove(holder.getAdapterPosition());
-                    view.setEnabled(false);
-                    notifyItemRemoved(holder.getAdapterPosition());
+                public void onClick(final View view) {
+
+                    alertDialogBuilder = new AlertDialog.Builder(context);
+                    alertDialogBuilder.setMessage("Delete the comment?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    listener.onDeleteClick(commentList.get(holder.getAdapterPosition()).getId());
+                                    commentList.remove(holder.getAdapterPosition());
+                                    view.setEnabled(false);
+                                    notifyItemRemoved(holder.getAdapterPosition());
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+
+
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+
+
                 }
             });
         }

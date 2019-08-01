@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#131313</color>
-    <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#01579b</color>
+    <color name="colorPrimaryDark">#002f6c</color>
+    <color name="colorAccent">#000</color>
+    <color name="winBackground">#e0e0e0</color>
+    <color name="colorPrimaryLight">#4f83cc</color>
 
 
+    <color name="colorGrey">#404040</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
 
-    <color name="winBackground">#30302F</color>
+    <color name="dialogClose">#d50000</color>
 
-
+    <color name= "colorYellow">#ffca28</color>
 
 
 </resources>

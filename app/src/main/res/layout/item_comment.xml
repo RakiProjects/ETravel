@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="15dp"
+    android:layout_marginBottom="20dp"
     android:orientation="vertical">
 
 
@@ -17,13 +17,16 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="20dp"
             android:textAllCaps="false"
-            android:textStyle="italic" />
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/comment_time"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textAllCaps="false"
+            android:gravity="bottom"
+            android:textSize="12sp"
             android:textStyle="italic" />
     </LinearLayout>
 
@@ -36,16 +39,17 @@
             android:id="@+id/comment_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:textAllCaps="false"
-            android:textSize="20sp" />
+            android:textSize="17sp" />
 
         <ImageView
             android:id="@+id/trash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
+            android:layout_gravity="top"
             android:src="@android:drawable/ic_menu_delete"
             android:visibility="invisible" />
 

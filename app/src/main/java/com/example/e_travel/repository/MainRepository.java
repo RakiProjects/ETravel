@@ -12,10 +12,12 @@ import com.example.e_travel.retrofit.RetrofitInstance;
 import com.example.e_travel.retrofit.WebApi;
 import com.example.e_travel.room.ETravelRoomDatabase;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,8 +50,6 @@ public class MainRepository extends BaseRepository {
             @Override
             public void onResponse(Call<ArrayList<Country>> call, Response<ArrayList<Country>> response) {
                 if (response.isSuccessful()) {
-                    // if(response.code() == 200){ // switch ako vise
-                    Log.v(TAG, response.code() + "");
                     ArrayList<Country> countryList = response.body();
 
                     database = ETravelRoomDatabase.getInstance(context);
@@ -62,7 +62,12 @@ public class MainRepository extends BaseRepository {
                     countriesLiveData.setValue(new MainResponse(countryList, response.code(), null));
                     //}
                 } else {
-                    Log.v(TAG, String.valueOf(response.code()));
+                    try {
+                        String error =  response.errorBody().string();
+                    } catch (IOException e) {
+                        countriesLiveData.setValue(new MainResponse(null, -1, e));
+                    }
+
                 }
             }
 

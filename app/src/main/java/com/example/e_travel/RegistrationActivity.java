@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.e_travel.model.User;
@@ -81,10 +83,13 @@ public class RegistrationActivity extends AppCompatActivity implements Validator
                 }
                 if(registrationResponse.getError().equals("")){
                     registrationResponse.setError(null);
-                    LoginActivity.start(RegistrationActivity.this);
-//                    Snackbar snackbar = Snackbar.make(findViewById(R.id.registration_activity), "Successfull registration!", Snackbar.LENGTH_INDEFINITE);
-//                    snackbar.setAction(R.string.snackbar, new SnackbarListener());
-//                    snackbar.show();
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.registration_activity), "Successfull registration!", Snackbar.LENGTH_INDEFINITE);
+                    snackbar.setAction(R.string.snackbar, new SnackbarListener());
+                    snackbar.setActionTextColor(getResources().getColor(R.color.colorYellow));
+                    View snackView = snackbar.getView();
+                    TextView textView = snackView.findViewById(com.google.android.material.R.id.snackbar_text);
+                    textView.setTextColor(getResources().getColor(R.color.colorWhite));
+                    snackbar.show();
                 }
             }
         });
@@ -122,7 +127,7 @@ public class RegistrationActivity extends AppCompatActivity implements Validator
     private class SnackbarListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            LoginActivity.start(RegistrationActivity.this);
+            onBackPressed();
         }
     }
 }

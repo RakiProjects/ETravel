@@ -15,11 +15,11 @@ public interface CityDao {
     @Query("SELECT * FROM cities WHERE id_country = :countryId")
     List<City> getCities(int countryId);
 
-//    @Query("SELECT id_country FROM cities")
-//    List<City> getCities();
+    @Query("SELECT * FROM cities")
+    List<City> getCities();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertCities(City... cities);
+    void insertCities(List<City> cities);
 
     @Query("DELETE FROM cities")
     void deleteTable();

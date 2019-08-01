@@ -95,8 +95,8 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
     }
 
     public void login(View view) {
-        email = loginEmail.getText().toString();
-        password = loginPassword.getText().toString();
+        email = loginEmail.getText().toString().trim();
+        password = loginPassword.getText().toString().trim();
         validator.validate();
     }
 

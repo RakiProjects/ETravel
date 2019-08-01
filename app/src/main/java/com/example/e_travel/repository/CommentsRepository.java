@@ -45,13 +45,11 @@ public class CommentsRepository extends BaseRepository {
                 if(response.isSuccessful()){
                     ArrayList<Comment> comments = response.body();
                     commentsLiveData.setValue(new CommentsResponse(comments, null));
-                    Log.v(TAG, " uspelo");
                 }else{
                     try {
                         response.errorBody().string();
                     } catch (Exception e) {
                         commentsLiveData.setValue(new CommentsResponse(null, e));
-                        Log.e(TAG, "catch ", e);
                     }
                 }
             }
@@ -59,7 +57,6 @@ public class CommentsRepository extends BaseRepository {
             @Override
             public void onFailure(Call<ArrayList<Comment>> call, Throwable t) {
                 commentsLiveData.setValue(new CommentsResponse(null, t));
-                Log.e(TAG, "onFailure", t);
             }
         });
     }
@@ -76,12 +73,11 @@ public class CommentsRepository extends BaseRepository {
                 if(response.isSuccessful()){
                     ArrayList<Comment> comments = response.body();
                     commentsLiveData.setValue(new CommentsResponse(comments, null));
-                    //Log.v(TAG, "UZME SELECT VREDNOSTI");
                 }else{
                     try {
                         response.errorBody().string();
                     } catch (Exception e) {
-                        Log.e(TAG, "catch ", e);
+                        commentsLiveData.setValue(new CommentsResponse(null, e));
                     }
                 }
             }
@@ -96,13 +92,11 @@ public class CommentsRepository extends BaseRepository {
     public void deleteComment(final MutableLiveData<CommentsResponse> commentDeleteLiveData, int commentId){
         Call<ResponseBody> call = service.deleteComment(commentId);
 
-        Log.v(TAG, String.valueOf(call.request().url()));
-
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
-                   // TODO: ako successfull obrisi lokalo, novi LiveData.
+                   // TODO: ako successfull obrisi lokalno, novi LiveData.
                     commentDeleteLiveData.setValue(new CommentsResponse(null, null));
                 }else {
                     try {

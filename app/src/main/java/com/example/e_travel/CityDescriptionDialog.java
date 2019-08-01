@@ -25,9 +25,9 @@ import com.squareup.picasso.Picasso;
 public class CityDescriptionDialog extends DialogFragment {
 
     private CityDescriptionViewModel cityDescViewModel;
-    ImageView imageView0, imageView1, imageView2;
-    TextView cityName, cityDescription, area, population;
-    ProgressBar progressBar0, progressBar1, progressBar2;
+    private ImageView imageView0, imageView1, imageView2;
+    private TextView cityName, cityDescription, area, population;
+    private ProgressBar progressBar0, progressBar1, progressBar2;
 
     public static CityDescriptionDialog newInstance(int cityId) {
 
@@ -73,54 +73,55 @@ public class CityDescriptionDialog extends DialogFragment {
         cityDescViewModel.cityDescLiveData.observe(this, new Observer<CityDescriptionResponse>() {
             @Override
             public void onChanged(CityDescriptionResponse cityDescriptionResponse) {
-                if(cityDescriptionResponse == null) return;
-                if(cityDescriptionResponse.getThrowable() != null){
+                if (cityDescriptionResponse == null) return;
+                if (cityDescriptionResponse.getThrowable() != null) {
                     CityDescriptionDialog.this.getDialog().cancel();
+                } else {
+
+                    String imgURL0 = cityDescriptionResponse.getCity().get(0).getSrc();
+                    String imgURL1 = cityDescriptionResponse.getCity().get(1).getSrc();
+                    String imgURL2 = cityDescriptionResponse.getCity().get(2).getSrc();
+
+                    Picasso.get().load(RetrofitInstance.BASE_URL + imgURL0).into(imageView0, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            progressBar0.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            // placeholder sliku
+                        }
+                    });
+                    Picasso.get().load(RetrofitInstance.BASE_URL + imgURL1).into(imageView1, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            progressBar1.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+                    });
+                    Picasso.get().load(RetrofitInstance.BASE_URL + imgURL2).into(imageView2, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            progressBar2.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+                    });
+                    cityName.setText(cityDescriptionResponse.getCity().get(0).getName());
+
+                    cityDescription.setText(cityDescriptionResponse.getCity().get(0).getDescription());
+
+                    area.setText(String.valueOf(cityDescriptionResponse.getCity().get(0).getArea()));
+                    population.setText(String.valueOf(cityDescriptionResponse.getCity().get(0).getPopulation()));
                 }
-
-                String imgURL0 = cityDescriptionResponse.getCity().get(0).getSrc();
-                String imgURL1 = cityDescriptionResponse.getCity().get(1).getSrc();
-                String imgURL2 = cityDescriptionResponse.getCity().get(2).getSrc();
-
-                Picasso.get().load(RetrofitInstance.BASE_URL + imgURL0).into(imageView0, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        progressBar0.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-
-                    }
-                });
-                Picasso.get().load(RetrofitInstance.BASE_URL + imgURL1).into(imageView1, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        progressBar1.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-
-                    }
-                });
-                Picasso.get().load(RetrofitInstance.BASE_URL + imgURL2).into(imageView2, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        progressBar2.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-
-                    }
-                });
-                cityName.setText(cityDescriptionResponse.getCity().get(0).getName());
-
-                cityDescription.setText(cityDescriptionResponse.getCity().get(0).getDescription());
-
-                area.setText( String.valueOf(cityDescriptionResponse.getCity().get(0).getArea()));
-                population.setText(String.valueOf(cityDescriptionResponse.getCity().get(0).getPopulation()));
             }
         });
 

@@ -44,9 +44,11 @@ public class MainActivity extends AppCompatActivity {
                 if (mainResponse.getThrowable() != null) {
                   if(mainResponse.getCountryList() != null){
                       mainAdapter.updateCountryList(mainResponse.getCountryList());
-                    }else {
+                    }else if(mainResponse.getStatusCode() == 0){
                         Toast.makeText(MainActivity.this, "No internet connection!", Toast.LENGTH_LONG).show();
-                    }
+                    }else if (mainResponse.getStatusCode() == -1){
+                      Toast.makeText(MainActivity.this, "Server unavailable, please try later", Toast.LENGTH_LONG).show();
+                  }
                     ETravelRoomDatabase.destroyInstance();
 
                 } else {
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(Country item) {
                 CitiesActivity.start(MainActivity.this, item.getId(), item.getName());
+                Log.v("Main", String.valueOf(item.getId()));
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

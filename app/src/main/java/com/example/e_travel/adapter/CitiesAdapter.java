@@ -20,12 +20,14 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CitiesView
     private ArrayList<City> cityList = new ArrayList<>();
     private Context context;
     private final OnItemClickListener listener;
+    private ArrayList<City> cityListCopy;
 
 
     public CitiesAdapter( Context context,ArrayList<City> cityList, OnItemClickListener listener) {
         this.cityList = cityList;
         this.context = context;
         this.listener = listener;
+        this.cityListCopy = new ArrayList<>();
     }
 
 
@@ -53,6 +55,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CitiesView
     public void updateCityList(List<City> list){
         cityList.clear();
         cityList.addAll(list);
+        this.cityListCopy.addAll(list);
         notifyDataSetChanged();
     }
 
@@ -72,6 +75,21 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CitiesView
                 }
             });
         }
+    }
+
+    public void searchFilter(String text){
+        this.cityList.clear();
+        if(text.isEmpty()){
+            cityList.addAll(cityListCopy);
+        } else {
+            text = text.toLowerCase();
+            for(City cityItem : cityListCopy){
+                if(cityItem.getName().toLowerCase().contains(text)){
+                    cityList.add(cityItem);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     public interface OnItemClickListener {

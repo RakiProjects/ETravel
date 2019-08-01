@@ -48,7 +48,6 @@ public class CityDescriptionRepository extends  BaseRepository {
                     try {
                         response.errorBody().string();
                     } catch (Exception e) {
-                        Log.e("TAG", "error", e);
                         cityDescLiveData.setValue(new CityDescriptionResponse(null, e));
                     }
                 }

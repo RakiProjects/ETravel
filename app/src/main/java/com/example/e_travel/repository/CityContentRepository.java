@@ -9,6 +9,7 @@ import com.example.e_travel.response.CityContentResponse;
 import com.example.e_travel.retrofit.RetrofitInstance;
 import com.example.e_travel.retrofit.WebApi;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -44,14 +45,18 @@ public class CityContentRepository extends BaseRepository {
                     ArrayList<CityContent> cityContent = response.body();
                     cityContentLiveData.setValue(new CityContentResponse(cityContent, null));
                 }else{
-                    //greska
-                    Log.v(TAG, String.valueOf(response.code()));
+                    try {
+                        response.errorBody().string();
+                    } catch (IOException e) {
+                        cityContentLiveData.setValue(new CityContentResponse(null, e));
+                    }
+
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<CityContent>> call, Throwable t) {
-                Log.v(TAG, t.getMessage());
+                cityContentLiveData.setValue(new CityContentResponse(null, t));
             }
         });
     }

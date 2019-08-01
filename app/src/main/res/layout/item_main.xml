@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cityItemLayout"
     android:layout_width="match_parent"
+    android:layout_marginBottom="5dp"
     android:layout_height="wrap_content">
 
     <ImageView
@@ -16,14 +17,15 @@
 
     <TextView
         android:id="@+id/country_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginStart="@dimen/image_main_margin_left"
         android:layout_marginBottom="@dimen/image_main_margin_bottom"
         android:textColor="@color/colorWhite"
-        android:textSize="35sp"
-        android:textStyle="bold|italic"
+        android:textSize="40sp"
+        android:textStyle="italic"
+        android:fontFamily="@font/urbanjungle"
         tools:text="Text" />
 
 </FrameLayout>

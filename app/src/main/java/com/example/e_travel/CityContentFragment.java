@@ -1,31 +1,31 @@
 package com.example.e_travel;
 
-        import androidx.fragment.app.DialogFragment;
-        import androidx.lifecycle.Observer;
-        import androidx.lifecycle.ViewModelProviders;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
-        import android.os.Bundle;
+import android.os.Bundle;
 
-        import androidx.annotation.NonNull;
-        import androidx.annotation.Nullable;
-        import androidx.fragment.app.Fragment;
-        import androidx.recyclerview.widget.GridLayoutManager;
-        import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-        import android.util.Log;
-        import android.view.LayoutInflater;
-        import android.view.Menu;
-        import android.view.MenuInflater;
-        import android.view.MenuItem;
-        import android.view.View;
-        import android.view.ViewGroup;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
-        import com.example.e_travel.adapter.CityContentAdapter;
-        import com.example.e_travel.model.CityContent;
-        import com.example.e_travel.response.CityContentResponse;
-        import com.example.e_travel.viewmodel.CityContentViewModel;
+import com.example.e_travel.adapter.CityContentAdapter;
+import com.example.e_travel.model.CityContent;
+import com.example.e_travel.response.CityContentResponse;
+import com.example.e_travel.viewmodel.CityContentViewModel;
 
-        import java.util.ArrayList;
+import java.util.ArrayList;
 
 public class CityContentFragment extends Fragment {
 
@@ -36,8 +36,8 @@ public class CityContentFragment extends Fragment {
     private int cityId;
     private String table;
 
-    RecyclerView recyclerView;
-    CityContentAdapter cityContentAdapter;
+    private RecyclerView recyclerView;
+    private CityContentAdapter cityContentAdapter;
 
 
     public static CityContentFragment newInstance(int cityId, int position) {
@@ -45,8 +45,6 @@ public class CityContentFragment extends Fragment {
         Bundle args = new Bundle();
         args.putInt("cityId", cityId);
         String table = "";
-
-        Log.v(TAG , "postiion "+position);
 
         switch (position) {
             case 0:
@@ -91,22 +89,22 @@ public class CityContentFragment extends Fragment {
         cityContentViewModel.cityContentLiveData.observe(this, new Observer<CityContentResponse>() {
             @Override
             public void onChanged(CityContentResponse cityContentResponse) {
-                if(cityContentResponse == null) return;
-                if(cityContentResponse.getThrowable() !=null){
-                    // TODO: kada je GRESKA
+                if (cityContentResponse == null) return;
+                if (cityContentResponse.getThrowable() != null) {
+                    Toast.makeText(getContext(), "No internet connection!", Toast.LENGTH_LONG).show();
+                }else{
+                    cityContentAdapter.updateCityContent(cityContentResponse.getCityList());
                 }
-                Log.v(TAG, "on change resenje size za "+table+"= "+ cityContentResponse.getCityList().size());
-               cityContentAdapter.updateCityContent(cityContentResponse.getCityList());
             }
         });
         cityContentViewModel.getCityContent(cityId, table);
     }
 
-    private void generateCityContentRecyclerView(){
+    private void generateCityContentRecyclerView() {
         cityContentAdapter = new CityContentAdapter(getContext(), new ArrayList<CityContent>(), new CityContentAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(CityContent item) {
-                PanoramaCommentsActivity.start(getContext(),item.getId(), item.getName(), item.getDescription(), item.getLat(), item.getLon(), item.getTargetType());
+                PanoramaCommentsActivity.start(getContext(), item);
             }
         });
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
@@ -121,12 +119,10 @@ public class CityContentFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_description:
                 DialogFragment dialogFragment = CityDescriptionDialog.newInstance(cityId);
                 dialogFragment.show(getChildFragmentManager(), "dialog");
-
-                //Toast.makeText(this, "RADI!", Toast.LENGTH_LONG).show();
         }
         return super.onOptionsItemSelected(item);
     }
