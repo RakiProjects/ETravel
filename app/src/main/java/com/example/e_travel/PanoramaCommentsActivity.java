@@ -68,7 +68,6 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
 
     CityContent cityContent;
 
-
     public static void start(Context context, CityContent item) {
         Intent starter = new Intent(context, PanoramaCommentsActivity.class);
         starter.putExtra("item" , item);
