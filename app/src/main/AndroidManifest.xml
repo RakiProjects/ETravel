@@ -45,7 +45,11 @@
         <activity android:name=".PanoramaCommentsActivity" />
         <activity
             android:name=".CityContentActivity"
-            android:theme="@style/CityContentTheme" />
+            android:theme="@style/CityContentTheme"
+            android:parentActivityName=".CitiesActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".CitiesActivity"/>
+
+        </activity>
         <activity android:name=".CitiesActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
