@@ -22,7 +22,7 @@ android {
 dependencies {
 
     def lifecycle_version = "2.0.0"
-    def room_version = "2.2.0-alpha01"
+    def room_version = "2.2.0-alpha02"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.2'
@@ -64,6 +64,7 @@ dependencies {
     // google maps
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.firebase:firebase-core:17.0.1'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
 
 }
 

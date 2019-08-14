@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -20,6 +21,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -38,6 +40,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class PanoramaCommentsActivity extends FragmentActivity implements OnStreetViewPanoramaReadyCallback {
 
@@ -70,7 +73,7 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
 
     public static void start(Context context, CityContent item) {
         Intent starter = new Intent(context, PanoramaCommentsActivity.class);
-        starter.putExtra("item" , item);
+        starter.putExtra("item", item);
         context.startActivity(starter);
     }
 
@@ -137,7 +140,7 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
 
         // panorama Fade button
         fadePanorama = findViewById(R.id.fadePanorama);
-        final View panorama = findViewById(R.id.streetViewMap);
+        final View panorama = findViewById(R.id.streetViewMap);     // todo:
         fadePanorama.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -150,6 +153,16 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
                 }
             }
         });
+
+        ImageButton gps = findViewById(R.id.gps_location);
+        gps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v("GPS1", cityContent.getLat() + " , " + cityContent.getLon());
+                GpsNavigationActivity.start(PanoramaCommentsActivity.this, cityContent.getLat(), cityContent.getLon());
+            }
+        });
+
     }
 
     @Override
@@ -210,7 +223,7 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
                     imm.hideSoftInputFromWindow(layout.getWindowToken(), 0);
                     edtComment.setText("");
                     edtComment.clearFocus();
-                }else{
+                } else {
                     Toast.makeText(PanoramaCommentsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -237,7 +250,8 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
             userName.setText(user.getName());
             userName.setVisibility(View.VISIBLE);
             userId = user.getId();
-           //Log.v("Panorama", String.valueOf(userId));
+            //Log.v("Panorama", String.valueOf(userId));
         }
     }
+
 }

@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private MainAdapter mainAdapter;
-    ETravelRoomDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

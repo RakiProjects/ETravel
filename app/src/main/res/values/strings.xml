@@ -37,6 +37,8 @@
     <string name="helloUser">Hello </string>
     <string name="title_activity_gps">Map</string>
     <string name="search">Search</string>
+    <string name="title_activity_google_navigation">Map</string>
+    <string name="title_activity_gps_navigation">Map</string>
 
 
 </resources>

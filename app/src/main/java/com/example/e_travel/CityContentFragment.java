@@ -4,6 +4,8 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,9 +30,13 @@ import com.example.e_travel.viewmodel.CityContentViewModel;
 
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
+import static android.os.Build.VERSION_CODES.M;
+
 public class CityContentFragment extends Fragment {
 
     private static final String TAG = CityContentFragment.class.getSimpleName();
+
 
     private CityContentViewModel cityContentViewModel;
 
@@ -92,7 +99,7 @@ public class CityContentFragment extends Fragment {
                 if (cityContentResponse == null) return;
                 if (cityContentResponse.getThrowable() != null) {
                     Toast.makeText(getContext(), "No internet connection!", Toast.LENGTH_LONG).show();
-                }else{
+                } else {
                     cityContentAdapter.updateCityContent(cityContentResponse.getCityList());
                 }
             }

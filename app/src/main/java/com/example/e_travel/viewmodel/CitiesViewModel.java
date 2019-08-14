@@ -22,7 +22,7 @@ public class CitiesViewModel extends AndroidViewModel {
         if(citiesLiveData.getValue() != null){
             return;
         }
-        citiesRepository = CitiesRepository.getInstance();
-        citiesRepository.getCityList(getApplication(),citiesLiveData, countryId);
+        citiesRepository = CitiesRepository.getInstance(getApplication());
+        citiesRepository.getCityList(citiesLiveData, countryId);
     }
 }

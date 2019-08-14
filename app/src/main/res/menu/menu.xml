@@ -7,6 +7,10 @@
         android:icon="@drawable/ic_info_outline_black_24dp"
         app:showAsAction="ifRoom" />
 
-
+    <!--<item-->
+        <!--android:id="@+id/menu_change_mode_night"-->
+        <!--android:title="Night Mode"-->
+        <!--android:icon="@drawable/ic_day_night_mode"-->
+        <!--app:showAsAction="ifRoom" />-->
 
 </menu>

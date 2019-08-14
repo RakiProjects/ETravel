@@ -23,7 +23,7 @@ public class MainViewModel extends AndroidViewModel {
             return;
         }
 
-        mainRepository = MainRepository.getInstance();
-        mainRepository.getCountryList(getApplication() ,countriesLiveData);
+        mainRepository = MainRepository.getInstance(getApplication());
+        mainRepository.getCountryList(countriesLiveData);
     }
 }
