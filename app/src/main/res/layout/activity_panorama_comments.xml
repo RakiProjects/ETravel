@@ -9,26 +9,12 @@
     android:orientation="vertical"
     tools:context=".PanoramaCommentsActivity">
 
-    <FrameLayout
-        android:id="@+id/framePanorama"
+    <fragment
+        android:id="@+id/streetViewMap"
+        android:name="com.google.android.gms.maps.StreetViewPanoramaFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2">
-
-        <fragment
-            android:id="@+id/streetViewMap"
-            android:name="com.google.android.gms.maps.StreetViewPanoramaFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <ImageButton
-            android:id="@+id/gps_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:src="@drawable/ic_location_on_black_24dp" />
-
-    </FrameLayout>
+        android:layout_weight="2" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,11 +20,9 @@ import android.widget.Toast;
 import com.example.e_travel.adapter.CitiesAdapter;
 import com.example.e_travel.model.City;
 import com.example.e_travel.response.CitiesResponse;
-import com.example.e_travel.room.ETravelRoomDatabase;
 import com.example.e_travel.viewmodel.CitiesViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CitiesActivity extends AppCompatActivity {
 
@@ -48,6 +45,7 @@ public class CitiesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         String countryName = (String) getIntent().getExtras().get("countryName");
         setTitle(countryName);
+
         setContentView(R.layout.activity_cities);
 
         recyclerView = findViewById(R.id.cities_recycler_view);

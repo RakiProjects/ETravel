@@ -51,7 +51,6 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
     TextView txtPanoramaDescription;
     TextView userName;
     TextView hello;
-    SharedPreferences sharedPreferences;
 
     Button logout;
 
@@ -60,9 +59,6 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
     CommentsViewModel commentsViewModel;
 
     ImageButton fadePanorama;
-
-    int placeId;
-    String placeType;
 
     User user;
 
@@ -140,7 +136,7 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
 
         // panorama Fade button
         fadePanorama = findViewById(R.id.fadePanorama);
-        final View panorama = findViewById(R.id.streetViewMap);     // todo:
+        final View panorama = findViewById(R.id.streetViewMap);
         fadePanorama.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,16 +149,6 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
                 }
             }
         });
-
-        ImageButton gps = findViewById(R.id.gps_location);
-        gps.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v("GPS1", cityContent.getLat() + " , " + cityContent.getLon());
-                GpsNavigationActivity.start(PanoramaCommentsActivity.this, cityContent.getLat(), cityContent.getLon());
-            }
-        });
-
     }
 
     @Override
@@ -189,15 +175,13 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
             if (resultCode == Activity.RESULT_OK) {
                 Toast.makeText(this, "Successfully logged in", Toast.LENGTH_LONG).show();
                 getUserData();
-
-                //TODO: ??
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        Log.v("asd", String.valueOf(cityContent.getLat()));
                         recreate();
                     }
                 });
-
             }
         }
     }
@@ -230,7 +214,7 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
         });
 
         if (!comment.equals("") && userId != 0) {
-            commentsViewModel.insertComment(comment, userId, placeId, placeType);
+            commentsViewModel.insertComment(comment, userId, cityContent.getId(), cityContent.getTargetType());
         } else if (comment.equals("")) {
             Toast.makeText(this, "Comment field cannot be empty", Toast.LENGTH_SHORT).show();
         } else if (userId == 0) {
@@ -253,5 +237,4 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
             //Log.v("Panorama", String.valueOf(userId));
         }
     }
-
 }

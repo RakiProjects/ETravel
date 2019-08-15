@@ -62,7 +62,6 @@ public class CitiesRepository extends BaseRepository {
                     } catch (IOException e) {
                         citiesLiveData.setValue(new CitiesResponse(null, e));
                     }
-
                 }
             }
 

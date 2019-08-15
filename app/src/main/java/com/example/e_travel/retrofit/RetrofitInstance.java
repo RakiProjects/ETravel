@@ -9,9 +9,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitInstance {
 
     private static Retrofit retrofit;
-    public static final String BASE_URL = "http://10.20.130.71/ETravel/";       //    10.0.2.2
+    public static final String BASE_URL = "http://10.20.130.87/ETravel/";       //    10.0.2.2
 
-    public static Retrofit getRetrofitInstance() {
+    private static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
 
             Gson gson = new GsonBuilder()

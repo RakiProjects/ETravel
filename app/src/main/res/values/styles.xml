@@ -20,12 +20,6 @@
         <item name="android:windowBackground">@color/winBackground</item>
     </style>
 
-    <style name="CityContentThemeDark"  parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="android:windowBackground">@color/colorBlack</item>
-    </style>
-
-
-
 
     <style name="ButtonColor" parent="Widget.AppCompat.Button.Colored">
         <item name="android:backgroundTint" tools:targetApi="lollipop">@color/colorPrimaryLight</item>
