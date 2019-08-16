@@ -65,11 +65,7 @@ public class CityContentAdapter extends RecyclerView.Adapter<CityContentAdapter.
             }
         });
 
-
         //Picasso.get().load(RetrofitInstance.BASE_URL + imgURL).into(imageView);
-
-
-
 
         TextView textView = cardView.findViewById(R.id.card_title_city_content);
         textView.setText(cityContent.get(position).getName());

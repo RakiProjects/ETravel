@@ -30,8 +30,6 @@ import com.example.e_travel.viewmodel.CityContentViewModel;
 
 import java.util.ArrayList;
 
-import static android.content.Context.MODE_PRIVATE;
-import static android.os.Build.VERSION_CODES.M;
 
 public class CityContentFragment extends Fragment {
 

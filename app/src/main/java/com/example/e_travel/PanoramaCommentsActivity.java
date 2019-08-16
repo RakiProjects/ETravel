@@ -153,7 +153,9 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
 
     @Override
     public void onStreetViewPanoramaReady(StreetViewPanorama streetViewPanorama) {
-        streetViewPanorama.setPosition(new LatLng(cityContent.getLat(), cityContent.getLon()));
+        if (streetViewPanorama != null) {
+            streetViewPanorama.setPosition(new LatLng(cityContent.getLat(), cityContent.getLon()));
+        }
     }
 
 
@@ -173,15 +175,17 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                Toast.makeText(this, "Successfully logged in", Toast.LENGTH_LONG).show();
                 getUserData();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.v("asd", String.valueOf(cityContent.getLat()));
-                        recreate();
-                    }
-                });
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        recreate();
+//                    }
+//                });
+                // uradio ovako umesto recreate() jer nije hteo da se prikaze content streetviewa posle logovanja
+                finish();
+                startActivity(getIntent());
+                Toast.makeText(this, "Successfully logged in", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -234,7 +238,6 @@ public class PanoramaCommentsActivity extends FragmentActivity implements OnStre
             userName.setText(user.getName());
             userName.setVisibility(View.VISIBLE);
             userId = user.getId();
-            //Log.v("Panorama", String.valueOf(userId));
         }
     }
 }
